@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+temp/
+
+.DS_Store
+Thumbs.db
+
+docs/

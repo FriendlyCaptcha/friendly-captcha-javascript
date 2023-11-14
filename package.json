@@ -1,0 +1,45 @@
+{
+  "name": "@friendlycaptcha/javascript-sdk",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:tsc",
+    "build:dist": "rm -rf dist/ build/ && npm run build:tsc && cp -r build/src/ dist/ && npm run build:apiextractor && npm run build:docs",
+    "build:tsc": "tsc",
+    "build:apiextractor": "api-extractor run --local --verbose",
+    "build:docs": "rm -rf build/docs && api-documenter markdown --output-folder docs --input temp/",
+    "test": "ava test/**/*.ts --timeout=1m",
+    "api-extractor": "api-extractor",
+    "fmt": "prettier src/**/*.ts test/**/*.ts package.json --write"
+  },
+  "author": "Friendly Captcha GmbH",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@microsoft/api-documenter": "^7.22.27",
+    "@microsoft/api-extractor": "^7.36.2",
+    "ava": "^4.3.1",
+    "esbuild": "^0.16.9",
+    "prettier": "^3.0.0",
+    "sync-request": "^6.1.0",
+    "typescript": "^4.7.4"
+  },
+  "ava": {
+    "files": [
+      "test/**/*"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "build/src/",
+        "test/": "build/test/"
+      },
+      "compile": "tsc"
+    }
+  }
+}
