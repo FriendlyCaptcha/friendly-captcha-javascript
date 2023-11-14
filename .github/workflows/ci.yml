@@ -1,0 +1,47 @@
+name: Javascript SDK tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+    
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Run the SDK testserver
+        run: |
+          docker run -d -p 1090:1090 friendlycaptcha/sdk-testserver:latest
+          echo "SDK Test server started. Checking its health..."
+          for i in {1..20}; do
+            if curl -s http://localhost:1090; then
+              echo "SDK test server is responding!"
+              break
+            else
+              echo "Attempt $i: SDK test server not yet responding. Waiting for 1 second..."
+              sleep 1
+            fi
+          done
+
+      - name: Test
+        run: |
+          npm t
+
+      - name: Build
+        run: |
+           npm run build:dist
