@@ -27,18 +27,18 @@ import {Client} from "@friendlycaptcha/javascript-sdk";
 ## Development
 
 ### Install dependencies
-```
+```shell
 npm install
 ```
 
 ### Run the tests
-```
+```shell
 npm test
 ```
 
 ### Build for production
 
-```
+```shell
 npm run build:dist
 ```
 
