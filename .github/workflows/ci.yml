@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  integration_test:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           node-version: 18.x
           cache: "npm"
           cache-dependency-path: "package-lock.json"
-    
+
       - name: Install dependencies
         run: |
           npm ci
@@ -44,4 +44,4 @@ jobs:
 
       - name: Build
         run: |
-           npm run build:dist
+          npm run build:dist
