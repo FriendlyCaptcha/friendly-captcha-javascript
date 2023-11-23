@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:tsc",
-    "build:dist": "rm -rf dist/ build/ && npm run build:tsc && cp -r build/src/ dist/ && npm run build:apiextractor && npm run build:docs",
+    "build:dist": "rm -rf dist/ build/ && node scripts/updateVersion.mjs && npm run build:tsc && cp -r build/src/ dist/ && npm run build:apiextractor && npm run build:docs",
     "build:tsc": "tsc",
     "build:apiextractor": "api-extractor run --local --verbose",
     "build:docs": "rm -rf build/docs && api-documenter markdown --output-folder docs --input temp/",

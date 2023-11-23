@@ -7,6 +7,7 @@ import {
   REQUEST_FAILED_TIMEOUT_ERROR_CODE,
 } from "./errors.js";
 import { VerifyResult } from "./result.js";
+import { SDK_VERSION } from "./version.gen.js";
 
 /**
  * Configuration options when creating a new `FriendlyCaptchaClient`.
@@ -41,7 +42,6 @@ export interface FriendlyCaptchaOptions {
 
 const GLOBAL_SITEVERIFY_ENDPOINT = "https://global.frcapi.com/api/v2/captcha/siteverify";
 const EU_SITEVERIFY_ENDPOINT = "https://eu.frcapi.com/api/v2/captcha/siteverify";
-const VERSION = "0.1.0";
 
 /**
  * A client for the Friendly Captcha API.
@@ -105,7 +105,7 @@ export class FriendlyCaptchaClient {
     const headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "X-Frc-Sdk": "friendly-captcha-javascript-sdk@" + VERSION,
+      "X-Frc-Sdk": "friendly-captcha-javascript-sdk@" + SDK_VERSION,
       "X-Api-Key": this.apiKey,
     };
 
