@@ -2,7 +2,7 @@
 
 A Javascript client for the [Friendly Captcha](https://friendlycaptcha.com) service. This client allows for easy integration and verification of captcha responses with the Friendly Captcha API.
 
-> This library is for [Friendly Captcha v2](https://developer.friendlycaptcha.com) only.
+> This library is for [Friendly Captcha v2](https://developer.friendlycaptcha.com) only. If you are looking for V1, look [here](https://docs.friendlycaptcha.com)
 
 **This is the library you use in your backend code**. For the code that you use in your frontend, see [@friendlycaptcha/sdk](https://github.com/FriendlyCaptcha/friendly-captcha-sdk).
 
@@ -11,7 +11,7 @@ A Javascript client for the [Friendly Captcha](https://friendlycaptcha.com) serv
 **Install using [NPM](https://npmjs.com/)**
 
 ```shell
-npm install @friendlycaptcha/javascript-sdk
+npm install @friendlycaptcha/server-sdk
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ npm install @friendlycaptcha/javascript-sdk
 First configure and create a SDK client
 
 ```javascript
-import {Client} from "@friendlycaptcha/javascript-sdk";
+import {Client} from "@friendlycaptcha/server-sdk";
 
 // TODO
 ```

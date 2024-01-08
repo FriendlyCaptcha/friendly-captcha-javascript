@@ -73,7 +73,7 @@ export class VerifyResult {
     }
 
     throw new Error(
-      "Implementation error in friendly-captcha-javascript-sdk shouldAccept: errorCode should never be undefined if success is false. " +
+      "Implementation error in @friendlycaptcha/server-sdk shouldAccept: errorCode should never be undefined if success is false. " +
         JSON.stringify(this),
     );
   }
