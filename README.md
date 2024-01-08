@@ -1,5 +1,7 @@
 # friendly-captcha-javascript
 
+[![NPM Version badge](https://img.shields.io/npm/v/%40friendlycaptcha/server-sdk)](https://www.npmjs.com/package/@friendlycaptcha/server-sdk)
+
 A Javascript client for the [Friendly Captcha](https://friendlycaptcha.com) service. This client allows for easy integration and verification of captcha responses with the Friendly Captcha API.
 
 > This library is for [Friendly Captcha v2](https://developer.friendlycaptcha.com) only. If you are looking for V1, look [here](https://docs.friendlycaptcha.com)
