@@ -16,7 +16,6 @@
   },
   "author": "Friendly Captcha GmbH",
   "license": "MIT",
-  "private": true,
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@babel/cli": "^7.19.3",
