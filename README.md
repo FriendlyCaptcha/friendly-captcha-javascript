@@ -19,7 +19,7 @@ npm install @friendlycaptcha/server-sdk
 First configure and create a SDK client
 
 ```javascript
-import {Client} from "@friendlycaptcha/server-sdk";
+import {FriendlyCaptchaClient} from "@friendlycaptcha/server-sdk";
 
 // TODO
 ```
