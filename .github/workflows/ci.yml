@@ -24,6 +24,9 @@ jobs:
         run: |
           npm ci
 
+      - name: Check formatting with Prettier
+        run: npm run fmt:ci
+
       - name: Run the SDK testserver
         run: |
           docker run -d -p 1090:1090 friendlycaptcha/sdk-testserver:latest
