@@ -84,7 +84,10 @@ export class FriendlyCaptchaClient {
    *   * `sitekey`: The sitekey to use for this request. Defaults to the sitekey passed to the constructor (if any).
    * @returns A promise that always resolves to a `VerifyResult` object, which contains the fields `shouldAccept()` and `wasAbleToVerify()`. This promise never rejects.
    */
-  public verifyCaptchaResponse(response: string, opts: { timeout?: number, sitekey?: string } = {}): Promise<VerifyResult> {
+  public verifyCaptchaResponse(
+    response: string,
+    opts: { timeout?: number; sitekey?: string } = {},
+  ): Promise<VerifyResult> {
     const siteverifyRequest: SiteverifyRequest = {
       response,
     };

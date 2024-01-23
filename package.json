@@ -12,7 +12,8 @@
     "build:docs": "rm -rf build/docs && api-documenter markdown --output-folder docs --input temp/",
     "test": "ava test/**/*.ts --timeout=1m",
     "api-extractor": "api-extractor",
-    "fmt": "prettier src/**/*.ts test/**/*.ts package.json --write"
+    "fmt": "prettier src/**/*.ts test/**/*.ts package.json --write",
+    "fmt:ci": "prettier src/**/*.ts test/**/*.ts package.json --check"
   },
   "author": "Friendly Captcha GmbH",
   "license": "MIT",

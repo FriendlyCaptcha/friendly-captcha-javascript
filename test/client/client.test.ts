@@ -34,15 +34,14 @@ test("unencodable response gets rejected", async (t) => {
 });
 
 test("request failure gets accepted", async (t) => {
-    const client = new FriendlyCaptchaClient({ apiKey: "my-api-key", siteverifyEndpoint: "http://localhost:9999" }); // Assumes nothing is listening on port 9999
-    const result = await client.verifyCaptchaResponse("something");
-  
-    t.false(result.isEncodeError());
-    t.false(result.isClientError());
-    t.true(result.isRequestOrTimeoutError());
-    t.false(result.isDecodeError());
-  
-    t.true(result.shouldAccept());
-    t.false(result.shouldReject());
-  });
-  
+  const client = new FriendlyCaptchaClient({ apiKey: "my-api-key", siteverifyEndpoint: "http://localhost:9999" }); // Assumes nothing is listening on port 9999
+  const result = await client.verifyCaptchaResponse("something");
+
+  t.false(result.isEncodeError());
+  t.false(result.isClientError());
+  t.true(result.isRequestOrTimeoutError());
+  t.false(result.isDecodeError());
+
+  t.true(result.shouldAccept());
+  t.false(result.shouldReject());
+});
