@@ -10,14 +10,13 @@ import {
 
 /**
  * The result of a captcha siteverify request.
- * 
+ *
  * @public
  */
 export class VerifyResult {
-
   private strict: boolean;
   /**
-   * The HTTP status code of the response.  
+   * The HTTP status code of the response.
    * `-1` if there was no response.
    */
   public status: number = -1;
@@ -40,7 +39,7 @@ export class VerifyResult {
   }
 
   /**
-   * @returns Whether the captcha should be accepted.   
+   * @returns Whether the captcha should be accepted.
    * Note that this does not necessarily mean it was verified.
    */
   public shouldAccept(): boolean {
@@ -96,7 +95,9 @@ export class VerifyResult {
    * Something went wrong making the request to the Friendly Captcha API, perhaps there is a network connection issue?
    */
   public isRequestOrTimeoutError(): boolean {
-    return this.clientErrorType === REQUEST_FAILED_ERROR_CODE || this.clientErrorType === REQUEST_FAILED_TIMEOUT_ERROR_CODE;
+    return (
+      this.clientErrorType === REQUEST_FAILED_ERROR_CODE || this.clientErrorType === REQUEST_FAILED_TIMEOUT_ERROR_CODE
+    );
   }
 
   /**
@@ -139,7 +140,7 @@ export class VerifyResult {
    * If this is false, you should notify yourself and use `getErrorCode()` and `getResponseError()` to see what is wrong.
    */
   public wasAbleToVerify(): boolean {
-    // If we failed to encode, we actually consider `wasAbleToVerify` to be true. This is because we don't want to 
+    // If we failed to encode, we actually consider `wasAbleToVerify` to be true. This is because we don't want to
     // alert on failed encoding: an attacker could send such malformed data that it fails to encode.
     if (this.isEncodeError()) {
       return true;
