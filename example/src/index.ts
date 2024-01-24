@@ -18,7 +18,7 @@ const FRC_WIDGET_ENDPOINT = process.env.FRC_WIDGET_ENDPOINT;
 
 if (!FRC_SITEKEY || !FRC_APIKEY) {
   console.error(
-    "Please set the FRC_SITEKEY and FRC_APIKEY environment values before running this example to your Friendly Captcha sitekey and apikey respectively.",
+    "Please set the FRC_SITEKEY and FRC_APIKEY environment values before running this example to your Friendly Captcha sitekey and API key respectively.",
   );
   process.exit(1);
 }
@@ -70,7 +70,7 @@ app.post("/", async (req: Request, res: Response) => {
   }
 
   // The captcha was OK, process the form.
-  formMessage;
+  formMessage; // Normally we would use the form data here and submit it to our database.
 
   res.render("index", {
     message: "✅ Your message has been submitted successfully.",
