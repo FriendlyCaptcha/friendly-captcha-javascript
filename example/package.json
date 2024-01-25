@@ -4,6 +4,7 @@
   "description": "Friendly Captcha V2 Javascript SDK integration example",
   "main": "index.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "start": "node --import tsx src/index.ts"
   },
