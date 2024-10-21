@@ -108,7 +108,7 @@ export class FriendlyCaptchaClient {
     const headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "X-Frc-Sdk": "friendly-captcha-javascript-sdk@" + SDK_VERSION,
+      "Frc-Sdk": "friendly-captcha-javascript-sdk@" + SDK_VERSION,
       "X-Api-Key": this.apiKey,
     };
 
