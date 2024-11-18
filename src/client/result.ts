@@ -1,4 +1,4 @@
-import type { SiteverifyErrorResponseErrorData, SiteverifyResponse } from "../api";
+import type { SiteverifyErrorResponseErrorData, SiteverifyResponse } from "../api/index.js";
 import {
   FAILED_DUE_TO_CLIENT_ERROR_CODE,
   FAILED_TO_DECODE_RESPONSE_ERROR_CODE,
