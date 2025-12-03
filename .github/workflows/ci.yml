@@ -1,5 +1,8 @@
 name: Javascript SDK tests
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]
