@@ -1,4 +1,3 @@
-
 /**
  * Risk intelligence data. Contains risk scores, network data, and client data. Field availability depends on enabled modules.
  *
@@ -55,32 +54,32 @@ export type RiskScore =
 
 /** @summary Unknown or missing risk score
  *  @public
-*/
+ */
 export const RISK_SCORE_UNKNOWN = 0 as const;
 
 /** @summary Very low risk score (1/5)
  *  @public
-*/
+ */
 export const RISK_SCORE_VERY_LOW = 1 as const;
 
 /** @summary Low risk score (2/5)
  *  @public
-*/
+ */
 export const RISK_SCORE_LOW = 2 as const;
 
 /** @summary Medium risk score (3/5)
  *  @public
-*/
+ */
 export const RISK_SCORE_MEDIUM = 3 as const;
 
 /** @summary High risk score (4/5)
  *  @public
-*/
+ */
 export const RISK_SCORE_HIGH = 4 as const;
 
 /** @summary Very high risk score (5/5)
  *  @public
-*/
+ */
 export const RISK_SCORE_VERY_HIGH = 5 as const;
 /**
  * Risk scores summarize the entire risk intelligence assessment into scores per category.

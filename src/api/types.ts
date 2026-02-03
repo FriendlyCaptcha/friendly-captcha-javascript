@@ -1,5 +1,5 @@
-import { SiteverifyErrorCode } from "./errors";
-import { RiskIntelligenceData } from "./typesRiskIntelligence";
+import type { SiteverifyErrorCode } from "./errors.js";
+import type { RiskIntelligenceData } from "./typesRiskIntelligence.js";
 
 /**
  * The request we make to the Frienldy Captcha API.

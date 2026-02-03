@@ -46,7 +46,10 @@ for (const testCase of casesFile.tests) {
       t.truthy(result.getResponse());
       t.deepEqual(result.getResponse() as SiteverifySuccessResponse, testCase.siteverify_response);
       // Check event ID matches
-      t.is((result.getResponse() as SiteverifySuccessResponse).data.event_id, testCase.siteverify_response.data.event_id);
+      t.is(
+        (result.getResponse() as SiteverifySuccessResponse).data.event_id,
+        testCase.siteverify_response.data.event_id,
+      );
     }
   });
 }

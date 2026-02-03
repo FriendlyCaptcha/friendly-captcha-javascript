@@ -77,7 +77,7 @@ export class FriendlyCaptchaClient {
 
     // Determine the API endpoint domain
     let apiEndpoint = opts.apiEndpoint || opts.siteverifyEndpoint || "global";
-    
+
     // Handle shorthands
     if (apiEndpoint === "global") {
       apiEndpoint = GLOBAL_API_ENDPOINT;
@@ -92,7 +92,7 @@ export class FriendlyCaptchaClient {
         // If it's not a valid URL, use as-is
       }
     }
-    
+
     this.siteverifyEndpoint = apiEndpoint + SITEVERIFY_PATH;
 
     this.strict = !!opts.strict;
