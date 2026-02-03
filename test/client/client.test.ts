@@ -45,3 +45,58 @@ test("request failure gets accepted", async (t) => {
   t.true(result.shouldAccept());
   t.false(result.shouldReject());
 });
+
+// Test the new apiEndpoint option
+test("apiEndpoint option works with shorthand 'global'", (t) => {
+  const client = new FriendlyCaptchaClient({ apiKey: "test", apiEndpoint: "global" });
+  t.is(client.getSiteverifyEndpoint(), "https://global.frcapi.com/api/v2/captcha/siteverify");
+});
+
+test("apiEndpoint option works with shorthand 'eu'", (t) => {
+  const client = new FriendlyCaptchaClient({ apiKey: "test", apiEndpoint: "eu" });
+  t.is(client.getSiteverifyEndpoint(), "https://eu.frcapi.com/api/v2/captcha/siteverify");
+});
+
+test("apiEndpoint option works with custom domain", (t) => {
+  const client = new FriendlyCaptchaClient({ apiKey: "test", apiEndpoint: "https://custom.example.com" });
+  t.is(client.getSiteverifyEndpoint(), "https://custom.example.com/api/v2/captcha/siteverify");
+});
+
+// Test backward compatibility with deprecated siteverifyEndpoint
+test("siteverifyEndpoint still works with shorthand 'global'", (t) => {
+  const client = new FriendlyCaptchaClient({ apiKey: "test", siteverifyEndpoint: "global" });
+  t.is(client.getSiteverifyEndpoint(), "https://global.frcapi.com/api/v2/captcha/siteverify");
+});
+
+test("siteverifyEndpoint still works with shorthand 'eu'", (t) => {
+  const client = new FriendlyCaptchaClient({ apiKey: "test", siteverifyEndpoint: "eu" });
+  t.is(client.getSiteverifyEndpoint(), "https://eu.frcapi.com/api/v2/captcha/siteverify");
+});
+
+test("siteverifyEndpoint strips path from full URL", (t) => {
+  // Create a client with a full URL including path
+  const client = new FriendlyCaptchaClient({
+    apiKey: "my-api-key",
+    siteverifyEndpoint: "http://localhost:9999/some/path/here",
+  });
+
+  // This should strip the path and use http://localhost:9999/api/v2/captcha/siteverify
+  t.is(client.getSiteverifyEndpoint(), "http://localhost:9999/api/v2/captcha/siteverify");
+});
+
+test("siteverifyEndpoint strips path and query from full URL", (t) => {
+  const client = new FriendlyCaptchaClient({
+    apiKey: "test",
+    siteverifyEndpoint: "https://example.com/api/v1/verify?foo=bar",
+  });
+  t.is(client.getSiteverifyEndpoint(), "https://example.com/api/v2/captcha/siteverify");
+});
+
+test("apiEndpoint takes precedence over siteverifyEndpoint", (t) => {
+  const client = new FriendlyCaptchaClient({
+    apiKey: "test",
+    apiEndpoint: "https://new.example.com",
+    siteverifyEndpoint: "https://old.example.com",
+  });
+  t.is(client.getSiteverifyEndpoint(), "https://new.example.com/api/v2/captcha/siteverify");
+});

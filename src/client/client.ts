@@ -21,7 +21,18 @@ export interface FriendlyCaptchaOptions {
   apiKey: string;
 
   /**
+   * The API endpoint domain to use. Can be "eu", "global", or a custom domain (e.g., "https://api.example.com").
+   * Do not include a path - it will be automatically appended.
+   *
+   * Defaults to `"global"`.
+   */
+  apiEndpoint?: string;
+
+  /**
+   * @deprecated Use `apiEndpoint` instead. This option will be removed in a future version.
+   *
    * The endpoint to use for the API. Can be "eu", "global", or a custom URL.
+   * If a full URL with a path is provided, the path will be stripped.
    *
    * Defaults to `"global"`.
    */
@@ -40,8 +51,9 @@ export interface FriendlyCaptchaOptions {
   fetch?: typeof globalThis.fetch;
 }
 
-const GLOBAL_SITEVERIFY_ENDPOINT = "https://global.frcapi.com/api/v2/captcha/siteverify";
-const EU_SITEVERIFY_ENDPOINT = "https://eu.frcapi.com/api/v2/captcha/siteverify";
+const GLOBAL_API_ENDPOINT = "https://global.frcapi.com";
+const EU_API_ENDPOINT = "https://eu.frcapi.com";
+const SITEVERIFY_PATH = "/api/v2/captcha/siteverify";
 
 /**
  * A client for the Friendly Captcha API.
@@ -63,16 +75,36 @@ export class FriendlyCaptchaClient {
     }
     this.apiKey = opts.apiKey;
 
-    let siteverifyEndpoint = opts.siteverifyEndpoint || "global";
-    if (siteverifyEndpoint === "global") {
-      siteverifyEndpoint = GLOBAL_SITEVERIFY_ENDPOINT;
-    } else if (siteverifyEndpoint === "eu") {
-      siteverifyEndpoint = EU_SITEVERIFY_ENDPOINT;
+    // Determine the API endpoint domain
+    let apiEndpoint = opts.apiEndpoint || opts.siteverifyEndpoint || "global";
+
+    // Handle shorthands
+    if (apiEndpoint === "global") {
+      apiEndpoint = GLOBAL_API_ENDPOINT;
+    } else if (apiEndpoint === "eu") {
+      apiEndpoint = EU_API_ENDPOINT;
+    } else {
+      // Strip path from custom URLs (for backward compatibility with siteverifyEndpoint)
+      try {
+        const url = new URL(apiEndpoint);
+        apiEndpoint = `${url.protocol}//${url.host}`;
+      } catch (e) {
+        // If it's not a valid URL, use as-is
+      }
     }
-    this.siteverifyEndpoint = siteverifyEndpoint;
+
+    this.siteverifyEndpoint = apiEndpoint + SITEVERIFY_PATH;
 
     this.strict = !!opts.strict;
     this.fetch = opts.fetch || globalThis.fetch;
+  }
+
+  /**
+   * Get the siteverify endpoint URL being used by this client.
+   * @internal - For testing purposes only
+   */
+  public getSiteverifyEndpoint(): string {
+    return this.siteverifyEndpoint;
   }
 
   /**

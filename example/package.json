@@ -1,6 +1,6 @@
 {
   "name": "friendly-captcha-example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Friendly Captcha V2 Javascript SDK integration example",
   "main": "index.js",
   "type": "module",
@@ -11,7 +11,7 @@
   "author": "Friendly Captcha GmbH",
   "license": "MIT",
   "dependencies": {
-    "@friendlycaptcha/server-sdk": "^0.1.0",
+    "@friendlycaptcha/server-sdk": "^0.2.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2"
   },
