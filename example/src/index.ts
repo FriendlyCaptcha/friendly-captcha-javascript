@@ -13,7 +13,7 @@ const FRC_SITEKEY = process.env.FRC_SITEKEY;
 const FRC_APIKEY = process.env.FRC_APIKEY;
 
 // Optionally we can pass in custom endpoints to be used, such as "eu".
-const FRC_SITEVERIFY_ENDPOINT = process.env.FRC_SITEVERIFY_ENDPOINT;
+const FRC_API_ENDPOINT = process.env.FRC_API_ENDPOINT;
 const FRC_WIDGET_ENDPOINT = process.env.FRC_WIDGET_ENDPOINT;
 
 if (!FRC_SITEKEY || !FRC_APIKEY) {
@@ -26,7 +26,7 @@ if (!FRC_SITEKEY || !FRC_APIKEY) {
 const frcClient = new FriendlyCaptchaClient({
   apiKey: FRC_APIKEY,
   sitekey: FRC_SITEKEY,
-  siteverifyEndpoint: FRC_SITEVERIFY_ENDPOINT, // optional, defaults to "global"
+  apiEndpoint: FRC_API_ENDPOINT, // optional, defaults to "global". Can be "eu", "global", or a custom domain
 });
 
 app.set("view engine", "ejs");

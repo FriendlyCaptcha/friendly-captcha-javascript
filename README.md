@@ -88,7 +88,7 @@ The client offers several configuration options:
 - **apiKey**: Your Friendly Captcha API key.
 - **sitekey**: Your Friendly Captcha sitekey.
 - **strict**: (Optional) In case the client was not able to verify the captcha response at all (for example if there is a network failure or a mistake in configuration), by default `verifyCaptchaResponse` returns `true` regardless. By passing `strict: true`, it will return `false` instead: every response needs to be strictly verified.
-- **siteverifyEndpoint**: (Optional) The endpoint URL for the site verification API. Shorthands `eu` or `global` are also accepted. Default is `global`.
+- **apiEndpoint**: (Optional) The endpoint domain for the site verification API. Shorthands `eu` or `global` are also accepted. Default is `global`.
 - **fetch**: (Optional) The fetch implementation to use. Defaults to `globalThis.fetch`.
 
 ## Development

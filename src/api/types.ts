@@ -1,4 +1,5 @@
 import { SiteverifyErrorCode } from "./errors";
+import { RiskIntelligenceData } from "./typesRiskIntelligence";
 
 /**
  * The request we make to the Frienldy Captcha API.
@@ -19,7 +20,19 @@ export interface SiteverifyRequest {
  * @public
  */
 export interface SiteverifyResponseData {
+  /**
+   * EventID is unique for this siteverify request.
+   */
+  event_id: string;
+  /**
+   * Challenge data contains information about the captcha challenge that was completed, such as the timestamp and origin.
+   */
   challenge: SiteverifyResponseChallengeData;
+
+  /**
+   * Risk intelligence data contains information about the client that completed the captcha challenge, such as the browser, operating system, and any detected automation tools or bots. This is only included if the Risk Intelligence module is enabled for your account.
+   */
+  risk_intelligence: RiskIntelligenceData | null;
 }
 
 /**

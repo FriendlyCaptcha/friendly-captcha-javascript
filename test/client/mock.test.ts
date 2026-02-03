@@ -1,6 +1,7 @@
 import test from "ava";
 import request from "sync-request";
 import { FriendlyCaptchaClient } from "../../src/client/index.js";
+import { SiteverifySuccessResponse } from "../../src/index.js";
 
 // Tests served from the SDK test mock server
 const mockServerUrl = "http://localhost:1090";
@@ -40,5 +41,12 @@ for (const testCase of casesFile.tests) {
     t.is(result.shouldAccept(), testCase.expectation.should_accept);
     t.is(result.wasAbleToVerify(), testCase.expectation.was_able_to_verify);
     t.is(result.isClientError(), testCase.expectation.is_client_error);
+
+    if (testCase.siteverify_response.success) {
+      t.truthy(result.getResponse());
+      t.deepEqual(result.getResponse() as SiteverifySuccessResponse, testCase.siteverify_response);
+      // Check event ID matches
+      t.is((result.getResponse() as SiteverifySuccessResponse).data.event_id, testCase.siteverify_response.data.event_id);
+    }
   });
 }
