@@ -17,6 +17,20 @@
   },
   "author": "Friendly Captcha GmbH",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FriendlyCaptcha/friendly-captcha-javascript"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@babel/cli": "^7.19.3",
