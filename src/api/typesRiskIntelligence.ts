@@ -776,12 +776,6 @@ export interface ClientAutomationToolData {
  */
 export interface ClientAutomationData {
   /**
-   * Whether the browser was detected as running in headless mode.
-   * @summary Headless browser detection
-   */
-  headless: boolean;
-
-  /**
    * Detected automation tool information.
    * @summary Automation tool detection results
    */
