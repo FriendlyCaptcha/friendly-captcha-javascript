@@ -5,6 +5,7 @@
 * Adds support for the Risk Intelligence Retrieve API.
 * Update dev dependencies.
 * Internal rename of `SiteverifyErrorCode` to `APIErrorCode`.
+* Rename of `VerifyClientErrorCode` to `ClientErrorCode`.
 
 ## 0.2.0
 

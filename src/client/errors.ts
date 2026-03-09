@@ -34,9 +34,16 @@ export const FAILED_TO_DECODE_RESPONSE_ERROR_CODE = "verification_response_could
 /**
  * @public
  */
-export type VerifyClientErrorCode =
+export type ClientErrorCode =
   | typeof FAILED_TO_ENCODE_ERROR_CODE
   | typeof REQUEST_FAILED_ERROR_CODE
   | typeof REQUEST_FAILED_TIMEOUT_ERROR_CODE
   | typeof FAILED_DUE_TO_CLIENT_ERROR_CODE
   | typeof FAILED_TO_DECODE_RESPONSE_ERROR_CODE;
+
+/**
+ * @public
+ * @deprecated Use `ClientErrorCode` instead. This type has been renamed
+ * and will be removed in a future version. Use `ClientErrorCode` for type annotations of client error codes.
+ */
+export type VerifyClientErrorCode = ClientErrorCode;

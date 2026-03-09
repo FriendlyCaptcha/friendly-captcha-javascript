@@ -1,11 +1,11 @@
-import type { SiteverifyErrorResponseErrorData, SiteverifyResponse } from "../api/index.js";
+import type { RiskIntelligenceRetrieveResponse, SiteverifyErrorResponseErrorData, SiteverifyResponse } from "../api/index.js";
 import {
   FAILED_DUE_TO_CLIENT_ERROR_CODE,
   FAILED_TO_DECODE_RESPONSE_ERROR_CODE,
   FAILED_TO_ENCODE_ERROR_CODE,
   REQUEST_FAILED_ERROR_CODE,
   REQUEST_FAILED_TIMEOUT_ERROR_CODE,
-  VerifyClientErrorCode,
+  ClientErrorCode,
 } from "./errors.js";
 
 /**
@@ -25,7 +25,7 @@ export class VerifyResult {
    * The response from the Friendly Captcha API, or null if the request was not made at all.
    */
   public response: SiteverifyResponse | null = null;
-  public clientErrorType: VerifyClientErrorCode | null = null;
+  public clientErrorType: ClientErrorCode | null = null;
 
   constructor(strict: boolean) {
     this.strict = strict;
@@ -131,7 +131,7 @@ export class VerifyResult {
     return this.response.error;
   }
 
-  public getErrorCode(): VerifyClientErrorCode | null {
+  public getErrorCode(): ClientErrorCode | null {
     return this.clientErrorType;
   }
 
@@ -150,3 +150,23 @@ export class VerifyResult {
     return this.status === 200 && !this.isRequestOrTimeoutError() && !this.isDecodeError();
   }
 }
+
+/**
+ * The result of a risk intelligence retrieve request.
+ *
+ * @public
+ */
+export class RiskIntelligenceRetrieveResult {
+  /**
+   * The HTTP status code of the response.
+   * `-1` if there was no response.
+   */
+  public status: number = -1;
+
+  /**
+   * The response from the Friendly Captcha API, or null if the request was not made at all.
+   */
+  public response: RiskIntelligenceRetrieveResponse | null = null;
+  public clientErrorType: ClientErrorCode | null = null;
+}
+
