@@ -32,6 +32,31 @@ const frcClient = new FriendlyCaptchaClient({
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
+/**
+ * Retrieve risk intelligence data if a token is present in the form data.
+ * This function is called regardless of captcha verification success to gather
+ * additional security and fraud detection information.
+ */
+async function retrieveRiskIntelligenceIfAvailable(formData: any): Promise<void> {
+  const frcRiskIntelligenceToken = formData["frc-risk-intelligence-token"];
+  if (!frcRiskIntelligenceToken) {
+    return;
+  }
+
+  const result = await frcClient.retrieveRiskIntelligence(frcRiskIntelligenceToken);
+  if (result.wasAbleToRetrieve() && result.isValid()) {
+    const riskIntelligenceResponse = result.getResponse();
+    if (riskIntelligenceResponse && riskIntelligenceResponse.success) {
+      console.log("Risk Intelligence Data:");
+      console.log(riskIntelligenceResponse.data.risk_intelligence);
+      console.log("Token data:");
+      console.log(riskIntelligenceResponse.data.token);
+    }
+  } else {
+    console.warn("Failed to retrieve risk intelligence:", result.getResponseError());
+  }
+}
+
 app.get("/", (req: Request, res: Response) => {
   res.render("index", {
     message: "",
@@ -43,6 +68,10 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/", async (req: Request, res: Response) => {
   const formData = req.body;
   const formMessage = formData as FormMessage;
+
+  // Retrieve risk intelligence data first, regardless of captcha verification result
+  // This data can be used for fraud detection, analytics, and security monitoring
+  await retrieveRiskIntelligenceIfAvailable(formData);
 
   const frcCaptchaResponse = formData["frc-captcha-response"];
   const result = await frcClient.verifyCaptchaResponse(frcCaptchaResponse);
@@ -67,23 +96,6 @@ app.post("/", async (req: Request, res: Response) => {
       widgetEndpoint: FRC_WIDGET_ENDPOINT,
     });
     return;
-  }
-
-  // The captcha was OK, now retrieve risk intelligence data if available
-  const frcRiskIntelligenceToken = formData["frc-risk-intelligence-token"];
-  if (frcRiskIntelligenceToken) {
-    const result = await frcClient.retrieveRiskIntelligence(frcRiskIntelligenceToken);
-    if (result.wasAbleToRetrieve() && result.isValid()) {
-      const riskIntelligenceResponse = result.getResponse();
-      if (riskIntelligenceResponse && riskIntelligenceResponse.success) {
-        console.log("Risk Intelligence Data:");
-        console.log(riskIntelligenceResponse.data.risk_intelligence);
-        console.log("Token data:");
-        console.log(riskIntelligenceResponse.data.token);
-      }
-    } else {
-      console.warn("Failed to retrieve risk intelligence:", result.getResponseError());
-    }
   }
 
   // Process the form.
