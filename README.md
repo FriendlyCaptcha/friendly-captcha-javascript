@@ -92,20 +92,6 @@ if (result.wasAbleToRetrieve()) {
   if (result.isValid()) {
     const response = result.getResponse();
     console.log("Risk Intelligence Data:", response.data);
-    
-    // Access risk scores
-    console.log("Overall Risk Score:", response.data.risk_intelligence.risk_scores?.overall);
-    console.log("Network Risk Score:", response.data.risk_intelligence.risk_scores?.network);
-    console.log("Browser Risk Score:", response.data.risk_intelligence.risk_scores.browser);
-    
-    // Access network information
-    console.log("IP Address:", response.data.risk_intelligence.network?.ip);
-    console.log("Country:", response.data.risk_intelligence.network?.geolocation.country.name);
-    
-    // Access browser/client information
-    if (response.data.risk_intelligence.client.browser) {
-      console.log("Browser:", response.data.risk_intelligence.client.browser.name);
-    }
   } else {
     // Token was invalid or expired
     const error = result.getResponseError();
