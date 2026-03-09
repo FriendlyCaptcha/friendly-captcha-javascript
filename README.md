@@ -79,6 +79,48 @@ console.log(result.wasAbleToVerify()); // false
 console.log(result.shouldAccept()); // false
 ```
 
+### Retrieving Risk Intelligence
+
+You can retrieve risk intelligence data for a given token. This provides detailed information about the risk profile of a request, including network data, geolocation, browser details, and risk scores.
+
+```javascript
+const result = await frcClient.retrieveRiskIntelligence("RISK_INTELLIGENCE_TOKEN_HERE");
+
+// Check if we were able to retrieve the risk intelligence data
+if (result.wasAbleToRetrieve()) {
+  // Check if the token is valid and data was retrieved successfully
+  if (result.isValid()) {
+    const response = result.getResponse();
+    console.log("Risk Intelligence Data:", response.data);
+    
+    // Access risk scores
+    console.log("Overall Risk Score:", response.data.risk_intelligence.risk_scores?.overall);
+    console.log("Network Risk Score:", response.data.risk_intelligence.risk_scores?.network);
+    console.log("Browser Risk Score:", response.data.risk_intelligence.risk_scores.browser);
+    
+    // Access network information
+    console.log("IP Address:", response.data.risk_intelligence.network?.ip);
+    console.log("Country:", response.data.risk_intelligence.network?.geolocation.country.name);
+    
+    // Access browser/client information
+    if (response.data.risk_intelligence.client.browser) {
+      console.log("Browser:", response.data.risk_intelligence.client.browser.name);
+    }
+  } else {
+    // Token was invalid or expired
+    const error = result.getResponseError();
+    console.log("Error:", error?.error_code, error?.detail);
+  }
+} else {
+  // Network issue or configuration problem
+  if (result.isClientError()) {
+    console.log("Configuration error - check your API key");
+  } else {
+    console.log("Network issue or service temporarily unavailable");
+  }
+}
+```
+
 ### Configuration
 
 ### Configuration

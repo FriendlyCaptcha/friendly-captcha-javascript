@@ -69,7 +69,24 @@ app.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  // The captcha was OK, process the form.
+  // The captcha was OK, now retrieve risk intelligence data if available
+  const frcRiskIntelligenceToken = formData["frc-risk-intelligence-token"];
+  if (frcRiskIntelligenceToken) {
+    const result = await frcClient.retrieveRiskIntelligence(frcRiskIntelligenceToken);
+    if (result.wasAbleToRetrieve() && result.isValid()) {
+      const riskIntelligenceResponse = result.getResponse();
+      if (riskIntelligenceResponse && riskIntelligenceResponse.success) {
+        console.log("Risk Intelligence Data:");
+        console.log(riskIntelligenceResponse.data.risk_intelligence);
+        console.log("Token data:");
+        console.log(riskIntelligenceResponse.data.token);
+      }
+    } else {
+      console.warn("Failed to retrieve risk intelligence:", result.getResponseError());
+    }
+  }
+
+  // Process the form.
   formMessage; // Normally we would use the form data in `formMessage` here and submit it to our database.
 
   res.render("index", {

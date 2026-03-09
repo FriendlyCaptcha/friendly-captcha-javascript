@@ -1,4 +1,9 @@
-import type { RiskIntelligenceRetrieveResponse, SiteverifyErrorResponseErrorData, SiteverifyResponse } from "../api/index.js";
+import type {
+  RiskIntelligenceRetrieveErrorResponseErrorData,
+  RiskIntelligenceRetrieveResponse,
+  SiteverifyErrorResponseErrorData,
+  SiteverifyResponse,
+} from "../api/index.js";
 import {
   FAILED_DUE_TO_CLIENT_ERROR_CODE,
   FAILED_TO_DECODE_RESPONSE_ERROR_CODE,
@@ -168,5 +173,65 @@ export class RiskIntelligenceRetrieveResult {
    */
   public response: RiskIntelligenceRetrieveResponse | null = null;
   public clientErrorType: ClientErrorCode | null = null;
-}
 
+  /**
+   * @returns The response from the Friendly Captcha API, or null if the request was not made at all.
+   */
+  public getResponse(): RiskIntelligenceRetrieveResponse | null {
+    return this.response;
+  }
+
+  /**
+   * @returns The `error` field from the response, or null if it is not present.
+   */
+  public getResponseError(): RiskIntelligenceRetrieveErrorResponseErrorData | null {
+    if (!this.response || this.response.success) return null;
+    return this.response.error;
+  }
+
+  /**
+   * Something went wrong on the client side, this generally means your configuration is wrong.
+   * Check your secrets (API key) and sitekey.
+   *
+   * See `getResponseError()` for more information.
+   */
+  public isClientError(): boolean {
+    return this.clientErrorType === FAILED_DUE_TO_CLIENT_ERROR_CODE;
+  }
+
+  /**
+   * Whether the request to retrieve risk intelligence was completed. In other words: the API responded with status 200.
+   * If this is false, you should notify yourself and use `getErrorCode()` and `getResponseError()` to see what is wrong.
+   */
+  public wasAbleToRetrieve(): boolean {
+    // If we failed to encode, we actually consider `wasAbleToRetrieve` to be true. This is because we don't want to
+    // alert on failed encoding: an attacker could send such malformed data that it fails to encode.
+    if (this.clientErrorType === FAILED_TO_ENCODE_ERROR_CODE) {
+      return true;
+    }
+
+    // We got a status 200, and we were able to actually make the request and decode its response.
+    return (
+      this.status === 200 &&
+      this.clientErrorType !== REQUEST_FAILED_ERROR_CODE &&
+      this.clientErrorType !== REQUEST_FAILED_TIMEOUT_ERROR_CODE &&
+      this.clientErrorType !== FAILED_TO_DECODE_RESPONSE_ERROR_CODE
+    );
+  }
+
+  /**
+   * @returns Whether the risk intelligence data is valid and was successfully retrieved.
+   */
+  public isValid(): boolean {
+    if (this.wasAbleToRetrieve()) {
+      // If we failed to encode, reject it
+      if (this.clientErrorType === FAILED_TO_ENCODE_ERROR_CODE) {
+        return false;
+      }
+
+      return this.response?.success === true;
+    }
+
+    return false;
+  }
+}
