@@ -40,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 async function retrieveRiskIntelligenceIfAvailable(formData: any): Promise<void> {
   const frcRiskIntelligenceToken = formData["frc-risk-intelligence-token"];
   if (!frcRiskIntelligenceToken) {
+    console.error("No risk intelligence token found in form data, skipping risk intelligence retrieval.");
     return;
   }
 
@@ -53,7 +54,7 @@ async function retrieveRiskIntelligenceIfAvailable(formData: any): Promise<void>
       console.log(riskIntelligenceResponse.data.token);
     }
   } else {
-    console.warn("Failed to retrieve risk intelligence:", result.getResponseError());
+    console.error("Failed to retrieve risk intelligence:", result.getResponseError());
   }
 }
 
