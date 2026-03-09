@@ -1,4 +1,4 @@
-export type SiteverifyErrorCode =
+export type APIErrorCode =
   | typeof SITEKEY_INVALID
   | typeof AUTH_INVALID
   | typeof AUTH_REQUIRED
@@ -64,7 +64,7 @@ export const RESPONSE_MISSING = "response_missing";
  */
 export const INTERNAL_SERVER_ERROR = "internal_server_error";
 
-export const ERROR_CODE_TO_STATUS: Record<SiteverifyErrorCode, number> = {
+export const ERROR_CODE_TO_STATUS: Record<APIErrorCode, number> = {
   [SITEKEY_INVALID]: 400,
   [AUTH_INVALID]: 401,
   [AUTH_REQUIRED]: 401,

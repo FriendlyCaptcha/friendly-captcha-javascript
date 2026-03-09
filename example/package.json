@@ -1,6 +1,6 @@
 {
   "name": "friendly-captcha-example",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Friendly Captcha V2 Javascript SDK integration example",
   "main": "index.js",
   "type": "module",

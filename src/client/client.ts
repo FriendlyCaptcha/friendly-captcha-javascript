@@ -54,6 +54,7 @@ export interface FriendlyCaptchaOptions {
 const GLOBAL_API_ENDPOINT = "https://global.frcapi.com";
 const EU_API_ENDPOINT = "https://eu.frcapi.com";
 const SITEVERIFY_PATH = "/api/v2/captcha/siteverify";
+const RETRIEVE_PATH = "/api/v2/riskIntelligence/retrieve"
 
 /**
  * A client for the Friendly Captcha API.
@@ -186,4 +187,13 @@ export class FriendlyCaptchaClient {
         });
     });
   }
+
+  /**
+   * Retrieve risk intelligence data for a given risk intelligence token.
+   * @param token - The risk intelligence token.
+   * @param opts - Optional options object:
+   *   * `timeout`: The timeout in milliseconds. Defaults to 20 seconds.
+   *   * `sitekey`: The sitekey to use for this request. Defaults to the sitekey passed to the constructor (if any).
+   * @returns A promise that resolves to a `RetrieveResult` object.
+   */
 }

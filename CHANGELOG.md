@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+* Adds support for the Risk Intelligence Retrieve API.
+* Update dev dependencies.
+* Internal rename of `SiteverifyErrorCode` to `APIErrorCode`.
+
 ## 0.2.0
 
 * Add support for *Risk Intelligence* data in siteverify responses.
