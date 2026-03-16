@@ -3,6 +3,9 @@ export type APIErrorCode =
   | typeof AUTH_INVALID
   | typeof AUTH_REQUIRED
   | typeof BAD_REQUEST
+  | typeof TOKEN_INVALID
+  | typeof TOKEN_EXPIRED
+  | typeof TOKEN_MISSING
   | typeof RESPONSE_TIMEOUT
   | typeof RESPONSE_DUPLICATE
   | typeof RESPONSE_INVALID
@@ -33,6 +36,24 @@ export const SITEKEY_INVALID = "sitekey_invalid";
  * Something else is wrong with your request, e.g. your request body is empty.
  */
 export const BAD_REQUEST = "bad_request";
+/**
+ * The token you provided was invalid.
+ *
+ * HTTP status 200.
+ */
+export const TOKEN_INVALID = "token_invalid";
+/**
+ * The token has expired.
+ *
+ * HTTP status 200.
+ */
+export const TOKEN_EXPIRED = "token_expired";
+/**
+ * You forgot to add the token parameter.
+ *
+ * HTTP status 400.
+ */
+export const TOKEN_MISSING = "token_missing";
 /**
  * The response has expired.
  *
@@ -69,6 +90,9 @@ export const ERROR_CODE_TO_STATUS: Record<APIErrorCode, number> = {
   [AUTH_INVALID]: 401,
   [AUTH_REQUIRED]: 401,
   [BAD_REQUEST]: 400,
+  [TOKEN_INVALID]: 200,
+  [TOKEN_EXPIRED]: 200,
+  [TOKEN_MISSING]: 400,
   [RESPONSE_TIMEOUT]: 200,
   [RESPONSE_DUPLICATE]: 200,
   [RESPONSE_INVALID]: 200,
