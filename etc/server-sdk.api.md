@@ -4,6 +4,9 @@
 
 ```ts
 
+// @public (undocumented)
+export type ClientErrorCode = typeof FAILED_TO_ENCODE_ERROR_CODE | typeof REQUEST_FAILED_ERROR_CODE | typeof REQUEST_FAILED_TIMEOUT_ERROR_CODE | typeof FAILED_DUE_TO_CLIENT_ERROR_CODE | typeof FAILED_TO_DECODE_RESPONSE_ERROR_CODE;
+
 // @public
 export const FAILED_DUE_TO_CLIENT_ERROR_CODE = "request_failed_due_to_client_error";
 
@@ -16,6 +19,12 @@ export const FAILED_TO_ENCODE_ERROR_CODE = "failed_to_encode_request";
 // @public
 export class FriendlyCaptchaClient {
     constructor(opts: FriendlyCaptchaOptions);
+    // @internal
+    getSiteverifyEndpoint(): string;
+    retrieveRiskIntelligence(token: string, opts?: {
+        timeout?: number;
+        sitekey?: string;
+    }): Promise<RiskIntelligenceRetrieveResult>;
     verifyCaptchaResponse(response: string, opts?: {
         timeout?: number;
         sitekey?: string;
@@ -24,10 +33,12 @@ export class FriendlyCaptchaClient {
 
 // @public
 export interface FriendlyCaptchaOptions {
+    apiEndpoint?: string;
     apiKey: string;
     fetch?: typeof globalThis.fetch;
     // (undocumented)
     sitekey?: string;
+    // @deprecated (undocumented)
     siteverifyEndpoint?: string;
     strict?: boolean;
 }
@@ -37,6 +48,76 @@ export const REQUEST_FAILED_ERROR_CODE = "request_failed";
 
 // @public
 export const REQUEST_FAILED_TIMEOUT_ERROR_CODE = "request_failed_due_to_timeout";
+
+// @public (undocumented)
+export interface RiskIntelligenceRetrieveErrorResponse {
+    // (undocumented)
+    error: RiskIntelligenceRetrieveErrorResponseErrorData;
+    // (undocumented)
+    success: false;
+}
+
+// @public (undocumented)
+export interface RiskIntelligenceRetrieveErrorResponseErrorData {
+    // (undocumented)
+    detail: string;
+    // Warning: (ae-forgotten-export) The symbol "APIErrorCode" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    error_code: APIErrorCode;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "RiskIntelligenceRetrieveRequest" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface RiskIntelligenceRetrieveRequest {
+    sitekey?: string;
+    token: string;
+}
+
+// @public (undocumented)
+export type RiskIntelligenceRetrieveResponse = RiskIntelligenceRetrieveSuccessResponse | RiskIntelligenceRetrieveErrorResponse;
+
+// @public
+export interface RiskIntelligenceRetrieveResponseData {
+    // (undocumented)
+    event_id: string;
+    // Warning: (ae-forgotten-export) The symbol "RiskIntelligenceData" needs to be exported by the entry point index.d.ts
+    risk_intelligence: RiskIntelligenceData;
+    token: RiskIntelligenceTokenData;
+}
+
+// @public
+export class RiskIntelligenceRetrieveResult {
+    // (undocumented)
+    clientErrorType: ClientErrorCode | null;
+    // (undocumented)
+    getResponse(): RiskIntelligenceRetrieveResponse | null;
+    // (undocumented)
+    getResponseError(): RiskIntelligenceRetrieveErrorResponseErrorData | null;
+    isClientError(): boolean;
+    // (undocumented)
+    isValid(): boolean;
+    response: RiskIntelligenceRetrieveResponse | null;
+    status: number;
+    wasAbleToRetrieve(): boolean;
+}
+
+// @public (undocumented)
+export interface RiskIntelligenceRetrieveSuccessResponse {
+    // (undocumented)
+    data: RiskIntelligenceRetrieveResponseData;
+    // (undocumented)
+    success: true;
+}
+
+// @public
+export interface RiskIntelligenceTokenData {
+    expires_at: string;
+    num_uses: number;
+    origin: string;
+    timestamp: string;
+}
 
 // @public (undocumented)
 export interface SiteverifyErrorResponse {
@@ -50,10 +131,8 @@ export interface SiteverifyErrorResponse {
 export interface SiteverifyErrorResponseErrorData {
     // (undocumented)
     detail: string;
-    // Warning: (ae-forgotten-export) The symbol "SiteverifyErrorCode" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    error_code: SiteverifyErrorCode;
+    error_code: APIErrorCode;
 }
 
 // Warning: (ae-internal-missing-underscore) The name "SiteverifyRequest" should be prefixed with an underscore because the declaration is marked as @internal
@@ -75,8 +154,9 @@ export interface SiteverifyResponseChallengeData {
 
 // @public (undocumented)
 export interface SiteverifyResponseData {
-    // (undocumented)
     challenge: SiteverifyResponseChallengeData;
+    event_id: string;
+    risk_intelligence: RiskIntelligenceData | null;
 }
 
 // @public (undocumented)
@@ -87,16 +167,16 @@ export interface SiteverifySuccessResponse {
     success: true;
 }
 
-// @public (undocumented)
-export type VerifyClientErrorCode = typeof FAILED_TO_ENCODE_ERROR_CODE | typeof REQUEST_FAILED_ERROR_CODE | typeof REQUEST_FAILED_TIMEOUT_ERROR_CODE | typeof FAILED_DUE_TO_CLIENT_ERROR_CODE | typeof FAILED_TO_DECODE_RESPONSE_ERROR_CODE;
+// @public @deprecated (undocumented)
+export type VerifyClientErrorCode = ClientErrorCode;
 
 // @public
 export class VerifyResult {
     constructor(strict: boolean);
     // (undocumented)
-    clientErrorType: VerifyClientErrorCode | null;
+    clientErrorType: ClientErrorCode | null;
     // (undocumented)
-    getErrorCode(): VerifyClientErrorCode | null;
+    getErrorCode(): ClientErrorCode | null;
     // (undocumented)
     getResponse(): SiteverifyResponse | null;
     // (undocumented)

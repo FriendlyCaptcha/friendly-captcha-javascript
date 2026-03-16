@@ -26,7 +26,9 @@ type TestCasesFile = {
   tests: TestCase[];
 };
 
-const casesFile: TestCasesFile = JSON.parse(request("GET", `${mockServerUrl}/api/v1/tests`).getBody("utf8"));
+const casesFile: TestCasesFile = JSON.parse(
+  request("GET", `${mockServerUrl}/api/v1/captcha/siteverifyTests`).getBody("utf8"),
+);
 
 for (const testCase of casesFile.tests) {
   test(testCase.name, async (t) => {

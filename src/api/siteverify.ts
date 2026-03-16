@@ -1,8 +1,8 @@
-import type { SiteverifyErrorCode } from "./errors.js";
-import type { RiskIntelligenceData } from "./typesRiskIntelligence.js";
+import type { APIErrorCode } from "./errors.js";
+import type { RiskIntelligenceData } from "./riskIntelligenceData.js";
 
 /**
- * The request we make to the Frienldy Captcha API.
+ * The request we make to the Friendly Captcha API to verify a captcha response.
  * @internal
  */
 export interface SiteverifyRequest {
@@ -61,7 +61,7 @@ export interface SiteverifySuccessResponse {
  * @public
  */
 export interface SiteverifyErrorResponseErrorData {
-  error_code: SiteverifyErrorCode;
+  error_code: APIErrorCode;
   detail: string;
 }
 
