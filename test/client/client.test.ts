@@ -100,3 +100,18 @@ test("apiEndpoint takes precedence over siteverifyEndpoint", (t) => {
   });
   t.is(client.getSiteverifyEndpoint(), "https://new.example.com/api/v2/captcha/siteverify");
 });
+
+for (const missing of [undefined, null]) {
+  test(`missing response (${missing}) is sent as an empty string`, async (t) => {
+    let body: any;
+    const fetch = async (_url: any, init: any) => {
+      body = JSON.parse(init.body);
+      return new Response(JSON.stringify({ success: false, error: { error_code: "response_invalid" } }), {
+        status: 200,
+      });
+    };
+    const client = new FriendlyCaptchaClient({ apiKey: "my-api-key", fetch: fetch as any });
+    await client.verifyCaptchaResponse(missing as any);
+    t.is(body.response, "");
+  });
+}
