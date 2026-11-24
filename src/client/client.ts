@@ -60,6 +60,12 @@ const SITEVERIFY_PATH = "/api/v2/captcha/siteverify";
 const RETRIEVE_PATH = "/api/v2/riskIntelligence/retrieve";
 
 /**
+ * Longer captcha responses are truncated to this before they are sent. It's above the API's request body limit, so
+ * the API still answers them as invalid. Truncating keeps the upload short enough to finish before the timeout.
+ */
+const MAX_CAPTCHA_RESPONSE_LENGTH = 2 * 1024 * 1024;
+
+/**
  * A client for the Friendly Captcha API.
  * @public
  */
@@ -201,9 +207,11 @@ export class FriendlyCaptchaClient {
     opts: { timeout?: number; sitekey?: string } = {},
   ): Promise<VerifyResult> {
     // A missing form field comes in as undefined or null. Send it as an empty string, like the PHP SDK does.
-    const siteverifyRequest: SiteverifyRequest = {
-      response: response ?? "",
-    };
+    response = response ?? "";
+    if (typeof response === "string" && response.length > MAX_CAPTCHA_RESPONSE_LENGTH) {
+      response = response.slice(0, MAX_CAPTCHA_RESPONSE_LENGTH);
+    }
+    const siteverifyRequest: SiteverifyRequest = { response };
     if (this.sitekey || opts.sitekey) {
       siteverifyRequest.sitekey = this.sitekey || opts.sitekey;
     }
