@@ -200,8 +200,9 @@ export class FriendlyCaptchaClient {
     response: string,
     opts: { timeout?: number; sitekey?: string } = {},
   ): Promise<VerifyResult> {
+    // A missing form field comes in as undefined or null. Send it as an empty string, like the PHP SDK does.
     const siteverifyRequest: SiteverifyRequest = {
-      response,
+      response: response ?? "",
     };
     if (this.sitekey || opts.sitekey) {
       siteverifyRequest.sitekey = this.sitekey || opts.sitekey;
