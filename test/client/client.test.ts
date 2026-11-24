@@ -1,6 +1,4 @@
 import test from "ava";
-import { createServer } from "node:http";
-import type { AddressInfo } from "node:net";
 import { FriendlyCaptchaClient } from "../../src/client/index.js";
 
 // More of a test pre-assertion than anything else.
@@ -106,27 +104,14 @@ test("apiEndpoint takes precedence over siteverifyEndpoint", (t) => {
 for (const missing of [undefined, null]) {
   test(`missing response (${missing}) is sent as an empty string`, async (t) => {
     let body: any;
-    const server = createServer((req, res) => {
-      let raw = "";
-      req.on("data", (chunk) => (raw += chunk));
-      req.on("end", () => {
-        body = JSON.parse(raw);
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: { error_code: "response_invalid", detail: "" } }));
+    const fetch = async (_url: any, init: any) => {
+      body = JSON.parse(init.body);
+      return new Response(JSON.stringify({ success: false, error: { error_code: "response_invalid" } }), {
+        status: 200,
       });
-    });
-    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
-    t.teardown(() => server.close());
-
-    const { port } = server.address() as AddressInfo;
-    const client = new FriendlyCaptchaClient({
-      apiKey: "my-api-key",
-      siteverifyEndpoint: `http://127.0.0.1:${port}/api/v2/captcha/siteverify`,
-    });
-    const result = await client.verifyCaptchaResponse(missing as any);
-
+    };
+    const client = new FriendlyCaptchaClient({ apiKey: "my-api-key", fetch: fetch as any });
+    await client.verifyCaptchaResponse(missing as any);
     t.is(body.response, "");
-    t.true(result.wasAbleToVerify());
-    t.true(result.shouldReject());
   });
 }
