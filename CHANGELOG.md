@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+* Truncate captcha responses longer than 2 MiB before sending them to the API.
+* Send an undefined or null response as an empty string.
+
 ## 0.3.0
 
 * Adds support for the Risk Intelligence Retrieve API.

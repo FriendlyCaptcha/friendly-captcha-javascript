@@ -115,3 +115,17 @@ for (const missing of [undefined, null]) {
     t.is(body.response, "");
   });
 }
+
+test("too long response is truncated and sent", async (t) => {
+  let body: any;
+  const fetch = async (_url: any, init: any) => {
+    body = JSON.parse(init.body);
+    return new Response(JSON.stringify({ success: false, error: { error_code: "response_invalid" } }), {
+      status: 200,
+    });
+  };
+  const client = new FriendlyCaptchaClient({ apiKey: "my-api-key", fetch: fetch as any });
+  const result = await client.verifyCaptchaResponse("A".repeat(3 * 1024 * 1024));
+  t.is(body.response.length, 2 * 1024 * 1024);
+  t.false(result.shouldAccept());
+});
